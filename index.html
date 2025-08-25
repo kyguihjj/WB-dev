@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MB dev </title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #000, #1a1a1a, #b30000);
+      color: #fff;
+      overflow-x: hidden;
+    }
+    header {
+      background: #111;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+    }
+    header h1 {color: #ff1a1a;}
+    .cart {
+      background: #ff1a1a;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    section {padding: 30px;}
+    h2.section-title {text-align: center; color: #ff4d4d;}
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .product {
+      background: #1a1a1a;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .product:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    .product:active {
+      transform: scale(0.95);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+    }
+    .btn {
+      padding: 10px 20px;
+      background: linear-gradient(45deg, #ff1a1a, #990000);
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+    #cartModal {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 300px;
+      height: 100%;
+      background: #111;
+      transition: right 0.4s ease-in-out;
+      padding: 20px;
+      overflow-y: auto;
+      z-index: 999;
+    }
+    #cartModal.active {right: 0;}
+    .checkout {
+      margin-top: 15px;
+      background: #ff1a1a;
+      padding: 10px;
+      border-radius: 25px;
+      cursor: pointer;
+      text-align: center;
+    }
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 20px;
+      color: #aaa;
+    }
+    .close-cart {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #ff4d4d;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px solid #333;
+    }
+    .remove-item {
+      cursor: pointer;
+      color: #ff4d4d;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    /* مودال الأسئلة */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .modal-content {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 12px;
+      width: 320px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    .modal-content h3 {color: #ff4d4d;}
+    .modal-content input {
+      width: 90%;
+      padding: 8px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #111;
+      color: #fff;
+    }
+    .modal-content button {
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .confirm-btn {background: #ff1a1a; color: white;}
+    .cancel-btn {background: #444; color: white; margin-top: 5px;}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>متجر MB dev</h1>
+    <div class="cart" onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
+  </header>
+
+  <section>
+    <h2 class="section-title">الباقات</h2>
+    <div class="products">
+      <div class="product">
+        <h3>Basic</h3>
+        <p>إعداد رومات أساسية + إنشاء رتب بسيطة</p>
+        <div class="price">10000 كريدت</div>
+        <button class="btn" onclick="addToCart('Basic',10000)">إضافة للسلة</button>
+      </div>
+      <div class="product">
+        <h3>Standard</h3>
+        <p>إعداد رومات منظمة + إنشاء رتب كاملة + بوتات أساسية</p>
+        <div class="price">20000 كريدت</div>
+        <button class="btn" onclick="addToCart('Standard',20000)">إضافة للسلة</button>
+      </div>
+      <div class="product">
+        <h3>Advanced</h3>
+        <p>إعداد سيرفر كامل + بوتات مهمة + تصميم أيقونات</p>
+        <div class="price">25000 كريدت</div>
+        <button class="btn" onclick="addToCart('Advanced',25000)">إضافة للسلة</button>
+      </div>
+            <div class="product">
+        <h3>Premium</h3>
+        <p>1- سيرفر كامل بإحترافية 
+2- بوتات متقدمة 
+3- تصميم احترافي (بنرات + ايقونات خاصة)</p>
+        <div class="price">30000 كريدت</div>
+        <button class="btn" onclick="addToCart('prmium',30000)">إضافة للسلة</button>
+      </div>
+            <div class="product">
+        <h3>Exclusive</h3>
+        <p>1- سيرفر VIP كامل (من الصفر)
+2- بوتات مبرمجه خصيصا حسب الطلب 
+3- تصميم هوية كامله (بنرات + شعارات + الوان)
+4- دعم و صيانه شهر كامل مجاناً </p>
+        <div class="price">50000 كريدت</div>
+        <button class="btn" onclick="addToCart('Standard',50000)">إضافة للسلة</button>
+      </div>
+            <div class="product">
+        <h3>Vip pack</h3>
+        <p>1- سيرفر كامل متكامل من كل شي
+          2- موقع خاص مبرمج بإمكانيات عاليه 
+        </p>
+        <div class="price">2000000 كريدت</div>
+        <button class="btn" onclick="addToCart('vip pack',2000000)">إضافة للسلة</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="cartModal">
+    <button id="closeCartBtn" class="close-cart">×</button>
+    <h2>سلة المشتريات</h2>
+    <div id="cartItems"></div>
+    <div class="cart-total">الإجمالي: <span id="totalPrice">0</span> كريدت</div>
+    <div class="checkout" onclick="openCheckoutModal()">إتمام الشراء</div>
+  </div>
+
+  <!-- مودال الأسئلة -->
+  <div class="modal" id="checkoutModal">
+    <div class="modal-content">
+      <h3>تأكيد الشراء</h3>
+      <input type="text" id="discordUser" placeholder="🎮 يوزر الديسكورد">
+      <input type="text" id="serverLink" placeholder="🔗 رابط السيرفر">
+      <button class="confirm-btn" onclick="confirmCheckout()">تأكيد الشراء</button>
+      <button class="cancel-btn" onclick="closeCheckoutModal()">إلغاء</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 kafh dev - جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    let cart = [];
+    let total = 0;
+
+    function addToCart(name, price) {
+      cart.push({name, price});
+      total += price;
+      document.getElementById("cartCount").innerText = cart.length;
+      updateCart();
+    }
+
+    function updateCart() {
+      let cartItems = document.getElementById("cartItems");
+      cartItems.innerHTML = "";
+      cart.forEach((item, index) => {
+        let div = document.createElement("div");
+        div.classList.add("cart-item");
+        div.innerHTML = `
+          <span>${item.name} - ${item.price} كريدت</span>
+          <span class="remove-item" onclick="removeItem(${index})">×</span>
+        `;
+        cartItems.appendChild(div);
+      });
+      document.getElementById("totalPrice").innerText = total;
+    }
+
+    function removeItem(index) {
+      total -= cart[index].price;
+      cart.splice(index, 1);
+      document.getElementById("cartCount").innerText = cart.length;
+      updateCart();
+    }
+
+    function toggleCart() {
+      document.getElementById("cartModal").classList.toggle("active");
+    }
+
+    document.getElementById("closeCartBtn").addEventListener("click", () => {
+      document.getElementById("cartModal").classList.remove("active");
+    });
+
+    function openCheckoutModal() {
+      if (cart.length === 0) {
+        alert("السلة فارغة!");
+        return;
+      }
+      document.getElementById("checkoutModal").style.display = "flex";
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById("checkoutModal").style.display = "none";
+    }
+
+    function confirmCheckout() {
+      const discordUser = document.getElementById("discordUser").value;
+      const serverLink = document.getElementById("serverLink").value;
+
+      if (!discordUser || !serverLink) {
+        alert("⚠️ يرجى ملء جميع الحقول!");
+        return;
+      }
+
+      let itemsList = cart.map(i => `• ${i.name} - ${i.price} كريدت`).join("\n");
+      let embed = {
+        username: "MB dev Shop",
+        embeds: [{
+          title: "🛒 طلب شراء جديد",
+          color: 16711680,
+          fields: [
+            {name: "👤 يوزر الديسكورد", value: discordUser, inline: false},
+            {name: "📦 الباقة", value: itemsList, inline: false},
+            {name: "💰 الإجمالي", value: total + " كريدت", inline: false},
+            {name: "🌍 رابط السيرفر", value: serverLink, inline: false}
+          ],
+          footer: {text: "متجر MB dev"}
+        }]
+      };
+
+      fetch("https://discord.com/api/webhooks/1409319963063488552/oBm8KvOSiuXxlgao0DGNXXLC1l1fJ6pK9gE5LkhI4q10D4411bV8UnHie_EwC0eXM7EW", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(embed)
+      }).then(() => {
+        alert("✅ تم إرسال طلبك بنجاح، تحقق من الديسكورد.");
+        cart = [];
+        total = 0;
+        document.getElementById("cartCount").innerText = 0;
+        updateCart();
+        closeCheckoutModal();
+        toggleCart();
+      }).catch(err => {
+        alert("❌ حصل خطأ أثناء إرسال الطلب");
+        console.error(err);
+      });
+    }
+  </script>
+</body>
+</html>
