@@ -216,7 +216,8 @@
   <div class="modal" id="checkoutModal">
     <div class="modal-content">
       <h3>تأكيد الشراء</h3>
-      <input type="text" id="discordUser" placeholder="🎮 يوزر الديسكورد">
+      <input type="text" id="discordUser" placeholder="💻 يوزر الديسكورد">
+      <input type="text" id="serverLink" placeholder="💲 هل انت متأكد من اجراء هذه العمليه؟">
       <button class="confirm-btn" onclick="confirmCheckout()">تأكيد الشراء</button>
       <button class="cancel-btn" onclick="closeCheckoutModal()">إلغاء</button>
     </div>
@@ -296,8 +297,9 @@
           color: 16711680,
           fields: [
             {name: "👤 يوزر الديسكورد", value: discordUser, inline: false},
-            {name: "📦 العرض", value: itemsList, inline: false},
-            {name: "💰 الإجمالي", value: total + " كريدت", inline: false} 
+            {name: "📦 الباقة", value: itemsList, inline: false},
+            {name: "💰 الإجمالي", value: total + " كريدت", inline: false},
+            {name: "💲 تأكيد عملية الشراء", value: serverLink, inline: false}
           ],
           footer: {text: "متجر MB dev"}
         }]
@@ -322,4 +324,4 @@
     }
   </script>
 </body>
-</html>
+    </html>
