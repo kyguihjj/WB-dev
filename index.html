@@ -172,7 +172,7 @@
       </div>
       <div class="product">
         <h3>Advanced</h3>
-        <p>إعداد سيرفر كامل + بوتات مهمة + تصميم أيقونات</p>
+        <p>إعداد سيرفر كامل + بوتات متقدمه + قوالب رسائل</p>
         <div class="price">25000 كريدت</div>
         <button class="btn" onclick="addToCart('Advanced',25000)">إضافة للسلة</button>
       </div>
@@ -185,21 +185,39 @@
         <button class="btn" onclick="addToCart('prmium',30000)">إضافة للسلة</button>
       </div>
             <div class="product">
-        <h3>Exclusive</h3>
+        <h3>Ulimate</h3>
         <p>1- سيرفر VIP كامل (من الصفر)
-2- بوتات مبرمجه خصيصا حسب الطلب 
-3- تصميم هوية كامله (بنرات + شعارات + الوان)
-4- دعم و صيانه شهر كامل مجاناً </p>
+2- بوتات مبرمجه وتضبيطهم
+3- رومات كاملة + رتب كاملة
+4- حماية متقدمه جدا </p>
         <div class="price">50000 كريدت</div>
-        <button class="btn" onclick="addToCart('Standard',50000)">إضافة للسلة</button>
+        <button class="btn" onclick="addToCart('ulimate',50000)">إضافة للسلة</button>
       </div>
             <div class="product">
-        <h3>Vip pack</h3>
-        <p>1- سيرفر كامل متكامل من كل شي
-          2- موقع خاص مبرمج بإمكانيات عاليه 
+        <h3>Vip</h3>
+        <p>1- كل شيء مما سبق
+          2- تحديثات مستمرة
+          3- دعم فني
+          4- افكار تطوير السيرفر
         </p>
-        <div class="price">2000000 كريدت</div>
-        <button class="btn" onclick="addToCart('vip pack',2000000)">إضافة للسلة</button>
+        <div class="price">70000 كريدت</div>
+        <button class="btn" onclick="addToCart('vip pack',70000)">إضافة للسلة</button>
+      </div>
+                  <div class="product">
+        <h3>Legendary</h3>
+        <p>1- سيرفر كامل 
+          2- تصاميم ابداعية كاملة
+          3- دعم فني
+          4- كل شيء باختصار 
+        </p>
+        <div class="price">100000 كريدت</div>
+        <button class="btn" onclick="addToCart('legendary',100000)">إضافة للسلة</button>
+      </div>
+            <div class="product">
+        <h3>Vip Pro</h3>
+        <p>موقع كامل متكامل حسب الطلب </p>
+        <div class="price">private كريدت</div>
+        <button class="btn" onclick="addToCart('vip pro',private)">إضافة للسلة</button>
       </div>
     </div>
   </section>
@@ -216,8 +234,8 @@
   <div class="modal" id="checkoutModal">
     <div class="modal-content">
       <h3>تأكيد الشراء</h3>
-      <input type="text" id="discordUser" placeholder="💻 يوزر الديسكورد">
-      <input type="text" id="serverLink" placeholder="💲 هل انت متأكد من اجراء هذه العمليه؟">
+      <input type="text" id="discordUser" placeholder="🎮 يوزر الديسكورد">
+      <input type="text" id="serverLink" placeholder="🔗 هل انت متأكد من اجراء هذه العمليه؟">
       <button class="confirm-btn" onclick="confirmCheckout()">تأكيد الشراء</button>
       <button class="cancel-btn" onclick="closeCheckoutModal()">إلغاء</button>
     </div>
@@ -299,7 +317,7 @@
             {name: "👤 يوزر الديسكورد", value: discordUser, inline: false},
             {name: "📦 الباقة", value: itemsList, inline: false},
             {name: "💰 الإجمالي", value: total + " كريدت", inline: false},
-            {name: "💲 تأكيد عملية الشراء", value: serverLink, inline: false}
+            {name: "🌍 تأكيد عملية الشراء", value: serverLink, inline: false}
           ],
           footer: {text: "متجر MB dev"}
         }]
@@ -310,7 +328,7 @@
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(embed)
       }).then(() => {
-        alert("✅ لقد تم تأكيد طلبك، المرجو الرجوع للتكت في الديسكورد");
+        alert("✅ تم إرسال طلبك بنجاح، تحقق من الديسكورد.");
         cart = [];
         total = 0;
         document.getElementById("cartCount").innerText = 0;
@@ -324,4 +342,4 @@
     }
   </script>
 </body>
-    </html>
+</html>
